@@ -1,6 +1,6 @@
 import './App.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import PokemonStyledTable from 'Components/Pokemon';
+import PokemonStyledTable from 'Components/PokemonList/Pokemon';
 
 
 

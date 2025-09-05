@@ -1,0 +1,14 @@
+.detailsContainer {
+        max-width: 700px;
+        margin: auto;
+    }
+
+.tableContainer {
+
+        border-radius: 0;
+        box-shadow: none;
+    }
+.backLink {
+        margin-top: 16px;
+        float: right;
+    }

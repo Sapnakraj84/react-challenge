@@ -11,6 +11,7 @@ import {
   Link,
 } from '@mui/material';
 import { IPokemonAbility } from "Interface/pokemonModel";
+import "./pokemonDetails.css"
 
 export const PokemonDetails = ({handleBackClick, pokemonName, pokemonUrl}: {handleBackClick: () => void; pokemonName: string; pokemonUrl: string}) => {
   
@@ -25,17 +26,17 @@ export const PokemonDetails = ({handleBackClick, pokemonName, pokemonUrl}: {hand
   }
 
  return (
-    <div style={{ maxWidth: 700, margin: 'auto' }}>
-      <Typography variant="subtitle1" sx={{ mb: 2 }}>
+    <div className="detailsContainer">
+      <Typography variant="subtitle1" style={{ marginBottom: 16 }}>
         Selected Pokemon: <span>{pokemonName}</span>
       </Typography>
 
-      <TableContainer component={Paper} sx={{ borderRadius: 0, boxShadow: 'none' }}>
+      <TableContainer >
         <Table>
           <TableHead>
-            <TableRow sx={{ backgroundColor: '#a8cef3' }}>
-              <TableCell sx={{ fontWeight: 'bold' }}>Ability</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Ability Effect</TableCell>
+            <TableRow >
+              <TableCell style={{ fontWeight: 'bold' }}>Ability</TableCell>
+              <TableCell style={{ fontWeight: 'bold' }}>Ability Effect</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -51,7 +52,7 @@ export const PokemonDetails = ({handleBackClick, pokemonName, pokemonUrl}: {hand
         </Table>
       </TableContainer>
 
-      <Typography sx={{ mt: 2 }}>
+      <Typography className="backLink">
         <Link href="#" onClick={handleBackClick} color="primary" underline="hover">
           Back to list view
         </Link>

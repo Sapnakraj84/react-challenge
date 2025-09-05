@@ -17,8 +17,8 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import { PokemonDetails } from './PokemonDetails';
-
+import { PokemonDetails } from '../PokemonDetails/PokemonDetails';
+import "./pokemon.css"
 
 const rowsPerPage = 5;
 
@@ -69,24 +69,12 @@ export const PokemonStyledTable = () => {
         </div> : 
         <TableContainer
         component={Paper}
-        sx={{
-        maxWidth: 400,
-        margin: 'auto',
-        borderRadius: 0,
-        boxShadow: 'none',
-        border: '1px solid #ccc',
-        }}
+        className="tableContainer"
     >
         <Table>
         <TableHead>
-            <TableRow sx={{ backgroundColor: '#a8cef3' }}>
-            <TableCell
-                sx={{
-                fontWeight: 'bold',
-                color: 'black',
-                borderBottom: 'none',
-                }}
-            >
+            <TableRow >
+            <TableCell style={{ fontWeight: 'bold' }}>            
                 Pokemon Name
             </TableCell>
             </TableRow>
@@ -100,7 +88,7 @@ export const PokemonStyledTable = () => {
                 }}
                 onClick={() => setSelectedPokemon(pokemon)}
             >
-                <TableCell sx={{ borderBottom: 'none' }}>{pokemon.name}</TableCell>
+                <TableCell style={{ borderBottom: 'none' }}>{pokemon.name}</TableCell>
             </TableRow>
             ))}
         </TableBody>
@@ -108,13 +96,7 @@ export const PokemonStyledTable = () => {
 
         {/* Pagination Footer */}
    <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#e0ecfb',
-          padding: 1,
-        }}
+  className="pagination-footer"
       >
         {/* Disable button if on first page */}
         <IconButton onClick={handleFirstPageClick} disabled={page === 1}>
@@ -125,7 +107,7 @@ export const PokemonStyledTable = () => {
         </IconButton>
         
         {/* Display current page and total pages */}
-        <Typography variant="body2" sx={{ mx: 2 }}>
+        <Typography variant="body2" style={{ marginLeft: 2 }}>
           Page {page} of {pageCount}
         </Typography>
 
