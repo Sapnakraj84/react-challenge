@@ -70,11 +70,11 @@ export const PokemonStyledTable = () => {
         <TableContainer
         component={Paper}
         className="tableContainer"
-    >
+        >
         <Table>
-        <TableHead>
-            <TableRow >
-            <TableCell style={{ fontWeight: 'bold' }}>            
+          <TableHead>
+            <TableRow>
+              <TableCell style={{ fontWeight: 'bold' }}>
                 Pokemon Name
             </TableCell>
             </TableRow>
