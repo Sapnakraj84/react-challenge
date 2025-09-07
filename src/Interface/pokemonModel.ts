@@ -5,6 +5,12 @@ export interface IPokemons {
   results: Array<IPokemon>;
 }
 
+export interface PokemonDetailsProps {
+  handleBackClick: () => void;
+  pokemonName: string;
+  pokemonUrl: string;
+}
+
 export interface IPokemon {
     id: number|null;
     name: string;

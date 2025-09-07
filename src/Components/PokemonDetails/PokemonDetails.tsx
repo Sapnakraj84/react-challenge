@@ -10,10 +10,10 @@ import {
   Typography,
   Link,
 } from '@mui/material';
-import { IPokemonAbility } from "Interface/pokemonModel";
+import { IPokemonAbility, PokemonDetailsProps } from "Interface/pokemonModel";
 import "./pokemonDetails.css"
 
-export const PokemonDetails = ({handleBackClick, pokemonName, pokemonUrl}: {handleBackClick: () => void; pokemonName: string; pokemonUrl: string}) => {
+export const PokemonDetails = ({ handleBackClick, pokemonName, pokemonUrl }: PokemonDetailsProps) => {
   
   const { data, isLoading, isError, error } = usePokemonDetails(pokemonUrl);
 
@@ -25,7 +25,7 @@ export const PokemonDetails = ({handleBackClick, pokemonName, pokemonUrl}: {hand
     return <div>Error: {(error as Error).message}</div>;
   }
 
- return (
+  return (
     <div className="detailsContainer">
       <Typography variant="subtitle1" style={{ marginBottom: 16 }}>
         Selected Pokemon: <span>{pokemonName}</span>
@@ -43,7 +43,7 @@ export const PokemonDetails = ({handleBackClick, pokemonName, pokemonUrl}: {hand
             {data?.abilities.map((ability: IPokemonAbility, index: number) => (
               <TableRow
                 key={index}
-               >
+              >
                 <TableCell>{ability?.ability?.name}</TableCell>
                 <TableCell>{ability?.ability?.description}</TableCell>
               </TableRow>

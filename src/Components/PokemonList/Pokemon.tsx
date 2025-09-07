@@ -17,29 +17,52 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import { PokemonDetails } from '../PokemonDetails/PokemonDetails';
+import { PokemonDetails } from 'Components/PokemonDetails/PokemonDetails';
 import "./pokemon.css"
 
 const rowsPerPage = 5;
 
 export const PokemonStyledTable = () => {
     const [page, setPage] = React.useState(1);
-    const { data, isLoading, isError, error } = usePokemons();
+    const [offset,setOffset] = useState(0);
+    const { data, isLoading, isError, error } = usePokemons(rowsPerPage,offset);
 
     const [selectedPokemon, setSelectedPokemon] = useState<IPokemon | null>(null);
     const [displayData, setdisplayData] = useState<IPokemon[]>([]);
+    const pageCount = Math.ceil(data?.count / rowsPerPage);    
 
     // Update displayData whenever data or page changes
     useEffect(() => {
       if(data){
-          setdisplayData(data?.results.slice(
-                          (page - 1) * rowsPerPage,
-                          page * rowsPerPage
-                        ));
+          setdisplayData(data?.results);
       }
 
     },[data, page]);
 
+    // handler methods for pagination and back button click
+    const handleFirstPageClick = useCallback(() => {
+      setPage(1);
+      setOffset(0);
+    }, []);
+
+    const handleLastPageClick = useCallback(() => {
+      setPage(pageCount);
+      setOffset((pageCount - 1) * rowsPerPage);
+    }, [pageCount]);
+
+    const handleNextPageClick = useCallback(() => {
+      setPage((prev) => prev + 1);
+      setOffset((prev) => prev + rowsPerPage);
+    }, []);
+
+    const handlePrevPageClick = useCallback(() => {
+      setPage((prev) => prev - 1);
+      setOffset((prev) => prev - rowsPerPage);
+    }, []);
+
+    const handleBackClick = () => {
+      setSelectedPokemon(null);
+    }
     if (isLoading) {
         return <div>Loading ...</div>;
     }
@@ -47,25 +70,12 @@ export const PokemonStyledTable = () => {
     if (isError) {
         return <div>Error: {(error as Error).message}</div>;
     }
-
-
-    // handler methods for pagination and back button click
-    const handleFirstPageClick = () => setPage(1);
-    const handleLastPageClick = () => setPage(pageCount);
-    const handleNextPageClick = () => setPage((prev) => prev + 1);
-    const handlePrevPageClick = () => setPage((prev) => prev -1);
-    const pageCount = Math.ceil(data?.results.length / rowsPerPage);
-    
-    const handleBackClick = () => {
-      setSelectedPokemon(null);
-    }
-
     return (
 <>
  {/* Conditional rendering if a pokemon is selected display details otherwise display list */}
       {selectedPokemon?      
        <div>
-              <PokemonDetails handleBackClick={handleBackClick} pokemonName={selectedPokemon.name} pokemonUrl={selectedPokemon.url} />
+          <PokemonDetails handleBackClick={handleBackClick} pokemonName={selectedPokemon.name} pokemonUrl={selectedPokemon.url} />        
         </div> : 
         <TableContainer
         component={Paper}

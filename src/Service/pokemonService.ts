@@ -1,10 +1,11 @@
-import { useQuery } from '@tanstack/react-query'; // Or 'react-query' for older versions
-import { pokemonUrl } from 'Constants/pokemonConstant';
+import {  useQuery } from '@tanstack/react-query'; // Or 'react-query' for older versions
+import { POKEMON_URL,MAX_LIMIT } from 'Constants/pokemonConstant';
 import { IPokemon, IPokemonAbility, IPokemonDetails } from 'Interface/pokemonModel';
 
-
-const fetchPokemons = async () => {
-  const response = await fetch(pokemonUrl);
+// Fetch list of pokemons with limit and offset  
+const fetchPokemons = async (context: { queryKey: [string, number, number] }) => {
+  const [_, limit, offset] = context.queryKey;
+  const response = await fetch(POKEMON_URL + "limit=" + limit + "&offset=" + offset);
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }
@@ -13,6 +14,7 @@ const fetchPokemons = async () => {
   // Assigning unique IDs to each pokemon based on their index
   const newData = {
     ...data,
+    count: Math.min(data.count, MAX_LIMIT), //We are restricting the count to 250 to match the sample image
     results: data.results.map((item: IPokemon, index: number) => ({
       ...item,
       id: `${item.name}-${index + 1}`,
@@ -21,10 +23,11 @@ const fetchPokemons = async () => {
   return newData;
 };
 
-export const usePokemons = () => {
+export const usePokemons = (limit: number, offset: number) => {
   return useQuery({
-    queryKey: ['pokemons'],
+    queryKey: ['pokemons', limit, offset],
     queryFn: fetchPokemons,
+    placeholderData: (previousData) => previousData
   });
 };
 
@@ -33,7 +36,7 @@ const fetchPokemonDetails = async (url: string) => {
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }
-  const data : IPokemonDetails = await response.json();
+  const data: IPokemonDetails = await response.json();
   // Fetch and assign descriptions to each ability
   // using promise.all to handle multiple async calls
   if (data.abilities && data.abilities.length > 0) {
