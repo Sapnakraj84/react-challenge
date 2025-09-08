@@ -66,6 +66,7 @@ export const usePokemonDetails = (url: string) => {
   return useQuery({
     queryKey: ['pokemonDetails', url],
     queryFn: () => fetchPokemonDetails(url),
+    staleTime: 5 * 60 * 1000, // Data is considered fresh for 5 minutes (in milliseconds)
   });
 };
 
